@@ -5,7 +5,7 @@ namespace core {
 namespace math {
 
 template<class T>
-    const int sign(T val){
+    const T sign(T val){
 	return (T(0) < val) - (T(0) > val);
     }
 
