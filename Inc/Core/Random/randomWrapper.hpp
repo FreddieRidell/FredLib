@@ -1,5 +1,4 @@
-#ifndef CORE_RANDOM_RANDOM_WRAPPER_H_
-#define CORE_RANDOM_RANDOM_WRAPPER_H_
+#pragma once
 
 #include <memory> 
 #include <iostream>
@@ -88,5 +87,3 @@ private:
 
 } // namespace random
 } // namespace core
-
-#endif

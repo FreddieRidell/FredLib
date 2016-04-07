@@ -1,5 +1,4 @@
-#ifndef CORE_MATH_SIGN_H_
-#define CORE_MATH_SIGN_H_
+#pragma once
 
 namespace core {
 namespace math {
@@ -11,5 +10,3 @@ template<class T>
 
 } //math
 } //core
-
-#endif

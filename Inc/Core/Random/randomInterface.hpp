@@ -1,5 +1,4 @@
-#ifndef CORE_RANDOM_RANDOM_INTERFACE_H_
-#define CORE_RANDOM_RANDOM_INTERFACE_H_
+#pragma once 
 
 #include <random>
 #include <iostream>
@@ -58,5 +57,3 @@ public:
 
 } // namespace random
 } // namespace core
-
-#endif
