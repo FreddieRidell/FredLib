@@ -4,4 +4,4 @@ Repos/*
 *.test
 
 *.o
-
+*.d
