@@ -1,10 +1,9 @@
-#include<Core/Hash/hash.hpp>
+#include<Core/hash.hpp>
 
 #include<gtest/gtest.h>
 #include<gmock/gmock.h>
 
 using namespace core;
-using namespace hash;
 
 TEST(HashInt, DoneAtCompile){
     static_assert(hashInt(1234) != 1234, "Not evaluted at compileTime");
