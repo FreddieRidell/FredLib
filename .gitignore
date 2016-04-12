@@ -2,3 +2,6 @@ Src/*
 Repos/*
 *.out
 *.test
+
+*.o
+
