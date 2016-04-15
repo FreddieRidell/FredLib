@@ -1,15 +1,23 @@
 #pragma once
 
+#include <map>
+#include <queue>
 #include <vector>
 #include <tuple>
 
-#include <Data/vectorHostedList.hpp>
-
 namespace data {
+
+typedef unsigned int ID;
+typedef struct Edge{
+    ID from;
+    ID edge;
+    ID to;
+}
 
 template<class T>
 class Graph{
 private:
+    std::map<ID, Edge>
 public:
     Graph(size_t reserveSize = 128);
 
