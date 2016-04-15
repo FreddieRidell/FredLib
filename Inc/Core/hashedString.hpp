@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <memory>
 
 #include <Core/hash.hpp>
 
@@ -13,7 +14,7 @@ int constexpr strLength(const char* str)
 
 class HashedString{
 public:
-    const char* internalStdString;
+    const std::shared_ptr<char> internalStdString;
     const size_t stringLength;
     const unsigned long hash;
 
