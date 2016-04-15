@@ -14,7 +14,7 @@ int constexpr strLength(const char* str)
 
 class HashedString{
 public:
-    const std::shared_ptr<char> internalStdString;
+    const std::shared_ptr<const char> internalStdString;
     const size_t stringLength;
     const unsigned long hash;
 
