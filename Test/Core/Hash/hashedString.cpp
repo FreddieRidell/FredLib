@@ -29,7 +29,3 @@ TEST(HashedString, OpperatorsWork){
     EXPECT_TRUE (foo1 >= bar);
     EXPECT_FALSE(foo1 <= bar);
 }
-
-
-TEST(HASHEDSTRING, FailTest){EXPECT_TRUE(false);}
-
