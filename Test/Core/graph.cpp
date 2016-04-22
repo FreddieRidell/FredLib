@@ -1,9 +1,9 @@
-//#include<Data/graph.hpp>
+#include<Core/graph.hpp>
 
 #include<gtest/gtest.h>
 #include<gmock/gmock.h>
 
-//using namespace data;
+using namespace core;
 
 TEST(GRAPH, FailTest){EXPECT_TRUE(false);}
 
