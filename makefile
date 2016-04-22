@@ -36,7 +36,7 @@ $(EXE_NAME): $(DEPENDANCY_FILES) $(CPP_UNITS)
 
 $(TESTS_EXE_NAME): $(DEPENDANCY_FILES) $(EXE_NAME) $(TEST_UNITS) $(GTEST_LIBRARY) $(GMOCK_LIBRARY)
 	@ echo "Compiling test runtime"
-	 $(CC) \
+	@ $(CC) \
 	$(TEST_UNITS) \
 	$(filter-out Src/main.o, $(CPP_UNITS)) \
 	$(GTEST_LIBRARY) \

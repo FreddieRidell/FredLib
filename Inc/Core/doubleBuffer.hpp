@@ -1,29 +1,31 @@
 #pragma once
 
+#include <array>
+
 namespace core {
 
 template<class T>
-DoubleBuffer{
+class DoubleBuffer{
 private:
     bool index;
-    T buffer[2];
+    std::array<T, 2> buffer;
 
 public:
     DoubleBuffer():
-	    index(0){
-	buffer = new[2] T;
+	    index(0),
+	    buffer({{T(), T()}})
+    {
     }
-    template<typename... Params>
-    DoubleBuffer(Params p):
-	    index(0){
-	buffer = new[2] T;
-	buffer[0] = T(p);
-	buffer[1] = T(p);
+    DoubleBuffer(const T& init):
+	    index(0),
+	    buffer({{init, init}})
+    {
     }
     
     const T& read()const{return buffer[index];}
     T& write(){return buffer[1-index];}
     void write(const T& t){buffer[1-index] = t;}
+    void sync(){ write(read()); }
 
     void swap(){index = 1-index;}
 
