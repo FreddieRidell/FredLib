@@ -9,3 +9,4 @@ I suspect that only I will ever use this :L
 + A nice logging system (but look for existing alternatives first)
 + A system for running generic jobs in parrallel (formic engine)
 + Re-do `RandomInterface`, as it's way too verbose, and `good rand` is never used
+    + Including a system for calcuating binary posibilitys using mulitup dice rolls in a single call (eg. 4d20, or the multi-step issue from my dissertation )
