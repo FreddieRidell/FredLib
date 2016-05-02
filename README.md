@@ -10,3 +10,5 @@ I suspect that only I will ever use this :L
 + A system for running generic jobs in parrallel (formic engine)
 + Re-do `RandomInterface`, as it's way too verbose, and `good rand` is never used
     + Including a system for calcuating binary posibilitys using mulitup dice rolls in a single call (eg. 4d20, or the multi-step issue from my dissertation )
++ Let the functions added to `DeferredFunctionQueue` be tagged with a sortable ID, that means function calls can be added in an arbitrary order (for Discrete Event simulation ETC)
++ Let functions be popped from the `DeferredFunctionQueue` singly.
