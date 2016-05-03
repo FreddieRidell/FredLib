@@ -1,9 +1,9 @@
 CC = clang++
 INCLUDEPATHS = -I./Inc
-COMPILEFLAGS = -std=gnu++11 -Wall -pthread
+COMPILEFLAGS = -std=gnu++11 -Wall -pthread -g
 PROJECTNAME = FreddieLib
 EXE_NAME = $(PROJECTNAME).out
-TESTS_EXE_NAME = $(PROJECTNAME).test
+TESTS_EXE_NAME = test
 
 # cpp source files and compiled objects
 CPP_SRC = $(shell find Src -name "*.cpp")

@@ -31,7 +31,7 @@ TEST(DeferredFunctionQueue, Works){
     DeferredFunctionQueue<true> dfq;
 
     dfq.push(StaticCaller::callable, 5);
-    dfq.push(&Caller::callable, cal, 6);
+    dfq.push(&Caller::callable, cal, 6); 
 
     ASSERT_EQ(StaticCaller::val, 0);
     ASSERT_EQ(cal.val, 0);
