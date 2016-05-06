@@ -27,7 +27,7 @@ public:
 
     template<typename Ret, typename ...Args>
     void push(Ret (T::*func)(Args...), Args... args){
-	dfq.push(func, contained, args...);
+	dfq.template push<Ret, T, Args...>(func, &contained, args...);
     }
 
     void flush(){
