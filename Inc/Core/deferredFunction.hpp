@@ -26,8 +26,8 @@ public:
 	if(locks)mtx.unlock();
     }
 
-    template<typename Ret, class Class, typename ...Args>
-    void push(Ret (Class::*func)(Args...), Class inst, Args... args){
+    template<typename Ret = void, class Class, typename ...Args>
+    void push(Ret (Class::*func)(Args...), Class* inst, Args... args){
 	if(locks)mtx.lock();
 
 	funQueue.push_back(
@@ -45,7 +45,7 @@ public:
 	}
 	funQueue.clear();
 
-	if(locks) mtx.unlocks();
+	if(locks) mtx.unlock();
     }
 };
 

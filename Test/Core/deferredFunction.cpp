@@ -22,25 +22,50 @@ public:
     Caller(){};
 };
 
-TEST(DeferredFunctionQueue, Works){
-    Caller cal;
+TEST(DeferredFunctionQueue, StaticFunction){
+    DeferredFunctionQueue<true> dfq;
+
+    dfq.push(StaticCaller::callable, 5);
+    dfq.push(StaticCaller::callable, 6);
 
     ASSERT_EQ(StaticCaller::val, 0);
+
+    dfq.flush();
+
+    ASSERT_EQ(StaticCaller::val, 6);
+}
+
+TEST(DeferredFunctionQueue, MemberMethod){
+    Caller cal;
     ASSERT_EQ(cal.val, 0);
 
     DeferredFunctionQueue<true> dfq;
 
-    dfq.push(StaticCaller::callable, 5);
-    dfq.push(&Caller::callable, cal, 6); 
+    dfq.push(&Caller::callable, &cal, 6); 
+    dfq.push(&Caller::callable, &cal, 7); 
 
-    ASSERT_EQ(StaticCaller::val, 0);
     ASSERT_EQ(cal.val, 0);
 
     dfq.flush();
 
-    ASSERT_EQ(StaticCaller::val, 5);
-    ASSERT_EQ(cal.val, 6);
+    ASSERT_EQ(cal.val, 7);
 }
 
-TEST(DEFERREDFUNCTION, FailTest){EXPECT_TRUE(false);}
+TEST(DeferredFunctionQueue, ComplexMemberMethod){
+    std::vector<int> vec;
 
+    ASSERT_THAT(vec, ::testing::ContainerEq(std::vector<int>()));
+
+    DeferredFunctionQueue<true> dfq;
+
+    dfq.push<void, std::vector<int>, const int&>
+	(&std::vector<int>::push_back, &vec, 7);
+    dfq.push<void, std::vector<int>, const int&>
+	(&std::vector<int>::push_back, &vec, 8);
+
+    ASSERT_THAT(vec, ::testing::ContainerEq(std::vector<int>()));
+
+    dfq.flush();
+
+    ASSERT_THAT(vec, ::testing::ContainerEq(std::vector<int>({7,8})));
+}
