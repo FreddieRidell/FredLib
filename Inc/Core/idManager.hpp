@@ -9,6 +9,11 @@ namespace core {
 
 typedef unsigned int ID;
 
+//const ID IDManager::yield();
+//void IDManager::retire(const ID id);
+//bool IDManager::idIsActive(const ID id);
+//const std::set<ID>& IDManager::getActiveIDs()const;
+
 class IDManager{
 private:
     ID greatestID;
@@ -51,5 +56,7 @@ public:
 	    return !(retiredIDs.count(id));
 	}
     }
+
+    const std::set<ID>& getActiveIDs()const{return activeIDs;}
 };
 } //core

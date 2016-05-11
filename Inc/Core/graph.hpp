@@ -8,81 +8,124 @@
 
 #include <Core/idManager.hpp>
 #include <Core/uniqIDManager.hpp>
-#include <Core/graphEdge.hpp>
 
 namespace core {
 
-typedef unsigned int ID;
-
-template<class NodeType, class EdgeType, bool directed, class IDMN = IDManager, class IDME = IDManager>
+template<
+    bool directed = true,
+    class EdgeIDM = IDManager,
+    class NodeIDM = IDManager
+>
 class Graph{
 private:
+    std::map<ID, std::pair<ID, ID>> edgeList;
+    std::vector<ID> orderedByFrom;
+    std::vector<ID> orderedByTo;
 
-    std::mutex topologyMtx;
+    EdgeIDM eIDM;
+    NodeIDM nIDM;
 
-    std::set<EdgeFTE> edgesSortedFrom;
-    std::set<EdgeTFE> edgesSortedTo;
-    std::set<EdgeEFT> edgesSortedEdge;
-
-    IDMN idmN;
-    IDME idmE;
-
-public:
-    Graph()
-    {}
-
-    bool allAreSorted(){
-	return (
-	    std::is_sorted(edgesSortedFrom.begin(), edgesSortedFrom.end()) &&
-	    std::is_sorted(edgesSortedTo.begin(), edgesSortedTo.end()) &&
-	    std::is_sorted(edgesSortedEdge.begin(), edgesSortedEdge.end())
-	);
+    bool orderedListsAreConsistent() const {
+	return
+	    std::is_sorted(
+		orderedByFrom.begin(),
+		orderedByFrom.end(),
+		[&](const ID& lhs, const ID& rhs){
+		    return edgeList.at(lhs).first < edgeList.at(rhs).first;
+		}
+	    )
+	    &&
+	    std::is_sorted(
+		orderedByTo.begin(),
+		orderedByTo.end(),
+		[&](const ID& lhs, const ID& rhs){
+		    return edgeList.at(lhs).second< edgeList.at(rhs).second;
+		}
+	    );
     }
 
+public:
+    Graph(){}
 
-    bool nodeIsActive(const ID id){idmN.idIsActive(id);}
-    bool edgeIsActive(const ID id){idmN.idIsActive(id);}
+    ID createNode(){
+	const ID newID = nIDM.yield();
+	return newID;
+    }
+    decltype(auto) getNodes()const{
+	return nIDM.getActiveIDs();
+    }
+    void removeNode(const ID id){
+	nIDM.retire(id);
+    }
 
-    const ID yieldNode(){return idmN.yield();}
+    ID createEdge(const ID from, const ID to){
+	const ID newID = eIDM.yield();
+	edgeList[newID] = std::pair<ID, ID>(from, to);
 
-    const ID yieldEdge(const ID from, const ID to){
-	std::lock_guard<std::mutex> lock(topologyMtx);
+	orderedByFrom.insert(
+	    std::lower_bound(
+		orderedByFrom.begin(),
+		orderedByFrom.end(),
+		newID,
+		[&](const ID& lhs, const ID& rhs){
+		    return edgeList.at(lhs).first < edgeList.at(rhs).first;
+		}
+	    ),
+	    newID
+	);
 
-	assert(nodeIsActive(from));
-	assert(nodeIsActive(to));
+	orderedByTo.insert(
+	    std::lower_bound(
+		orderedByTo.begin(),
+		orderedByTo.end(),
+		newID,
+		[&](const ID& lhs, const ID& rhs){
+		    return edgeList.at(lhs).second < edgeList.at(rhs).second;
+		}
+	    ),
+	    newID
+	);
 
-	const ID newID = idmE.yield();
-
-	Edge newEdge(from, newID, to);
-
-	edgesSortedFrom.insert(std::lower_bound(
-		    edgesSortedFrom.begin(),
-		    edgesSortedFrom.end(),
-		    newEdge),
-		newEdge);
-
-	edgesSortedTo.insert(std::lower_bound(
-		    edgesSortedTo.begin(),
-		    edgesSortedTo.end(),
-		    newEdge),
-		newEdge);
-
-	edgesSortedEdge.insert(std::lower_bound(
-		    edgesSortedEdge.begin(),
-		    edgesSortedEdge.end(),
-		    newEdge),
-		newEdge);
-
-	assert(allAreSorted());
+	assert(orderedListsAreConsistent());
 
 	return newID;
     }
-    
-    void retireNode(const ID id){
+    decltype(auto) getEdges()const{
+	assert(orderedListsAreConsistent());
+	return eIDM.getActiveIDs();
+    }
+    void removeEdge(const ID id){
+	assert(eIDM.idIsActive(id));
+
+	edgeList.erase(id);
+
+	auto prFrom = std::equal_range(orderedByFrom.begin(), orderedByFrom.end(), id);
+	orderedByFrom.erase(prFrom.first, prFrom.second);
+
+	auto prTo = std::equal_range(orderedByTo.begin(), orderedByTo.end(), id);
+	orderedByTo.erase(prTo.first, prTo.second);
+
+	eIDM.retire(id);
+	assert(!eIDM.idIsActive(id));
     }
 
-
+    const std::pair<ID, ID> getNodesFromEdge(const ID) const;
+    template<typename Itter>
+    const std::vector<std::pair<ID, ID>> getNodesFromEdges(const Itter& begin, const Itter& end) const;
+    
+    const std::vector<ID> getEdgesOfNode(const ID) const;
+    const std::vector<ID> getEdgesFromNode(const ID) const;
+    const std::vector<ID> getEdgesToNode(const ID) const;
 
 };
 
 } //core
+
+template<
+    bool directed = true,
+    class EdgeIDM = core::IDManager,
+    class NodeIDM = core::IDManager
+>
+std::ostream &operator<<(std::ostream &os, core::Graph<directed, EdgeIDM, NodeIDM> const &g) { 
+    return os << g.toString();
+}

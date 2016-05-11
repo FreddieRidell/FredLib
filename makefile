@@ -1,6 +1,6 @@
 CC = clang++
 INCLUDEPATHS = -I./Inc
-COMPILEFLAGS = -std=gnu++11 -Wall -pthread -g
+COMPILEFLAGS = -std=gnu++14 -Wall -pthread -g
 PROJECTNAME = FreddieLib
 EXE_NAME = $(PROJECTNAME).out
 TESTS_EXE_NAME = test

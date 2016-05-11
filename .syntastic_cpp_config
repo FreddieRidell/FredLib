@@ -2,7 +2,7 @@
 -I../gtest/googletest/include
 -I../gtest/googlemock/include
 -I../rapidjson/include
--std=gnu++11
+-std=gnu++14
 -pthread
 -g
 -pg
