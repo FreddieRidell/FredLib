@@ -1,7 +1,6 @@
 -I./Inc
--I../gtest/googletest/include
--I../gtest/googlemock/include
--I../rapidjson/include
+-I./Repos/gtest/googletest/include
+-I./Repos/gtest/googlemock/include
 -std=gnu++14
 -pthread
 -g

@@ -9,6 +9,14 @@
 #include <Core/idManager.hpp>
 #include <Core/uniqIDManager.hpp>
 
+// Nodes and Edges are just UniqIDs, the relationships between them are stored in the Graph object
+// What those IDs mean/are related to is not up to the Graph
+// Querys about the topology can be made to the graph
+// The topology is stored as three data structures:
+//	a list of edges
+//	a list of edgeIDs sorted by their from
+//	a list of edgeIDs sorted by their to
+
 namespace core {
 
 template<
@@ -24,100 +32,161 @@ private:
 
     EdgeIDM eIDM;
     NodeIDM nIDM;
-
-    bool orderedListsAreConsistent() const {
-	return
-	    std::is_sorted(
-		orderedByFrom.begin(),
-		orderedByFrom.end(),
-		[&](const ID& lhs, const ID& rhs){
-		    return edgeList.at(lhs).first < edgeList.at(rhs).first;
-		}
-	    )
-	    &&
-	    std::is_sorted(
-		orderedByTo.begin(),
-		orderedByTo.end(),
-		[&](const ID& lhs, const ID& rhs){
-		    return edgeList.at(lhs).second< edgeList.at(rhs).second;
-		}
-	    );
-    }
+    
+    bool orderedListsAreConsistent() const;
 
 public:
-    Graph(){}
+    Graph();
+    Graph(const ID* nodes);
+    Graph(const ID* nodes, const ID* edges);
 
-    ID createNode(){
-	const ID newID = nIDM.yield();
-	return newID;
-    }
-    decltype(auto) getNodes()const{
-	return nIDM.getActiveIDs();
-    }
-    void removeNode(const ID id){
-	nIDM.retire(id);
-    }
+    ID createNode();
+    decltype(auto) getNodes()const;
+    void removeNode(const ID id);
 
-    ID createEdge(const ID from, const ID to){
-	const ID newID = eIDM.yield();
-	edgeList[newID] = std::pair<ID, ID>(from, to);
+    ID createEdge(const ID from, const ID to);
+    decltype(auto) getEdges()const;
+    void removeEdge(const ID id);
 
-	orderedByFrom.insert(
-	    std::lower_bound(
-		orderedByFrom.begin(),
-		orderedByFrom.end(),
-		newID,
-		[&](const ID& lhs, const ID& rhs){
-		    return edgeList.at(lhs).first < edgeList.at(rhs).first;
-		}
-	    ),
-	    newID
-	);
-
-	orderedByTo.insert(
-	    std::lower_bound(
-		orderedByTo.begin(),
-		orderedByTo.end(),
-		newID,
-		[&](const ID& lhs, const ID& rhs){
-		    return edgeList.at(lhs).second < edgeList.at(rhs).second;
-		}
-	    ),
-	    newID
-	);
-
-	assert(orderedListsAreConsistent());
-
-	return newID;
-    }
-    decltype(auto) getEdges()const{
-	assert(orderedListsAreConsistent());
-	return eIDM.getActiveIDs();
-    }
-    void removeEdge(const ID id){
-	assert(eIDM.idIsActive(id));
-
-	edgeList.erase(id);
-
-	auto prFrom = std::equal_range(orderedByFrom.begin(), orderedByFrom.end(), id);
-	orderedByFrom.erase(prFrom.first, prFrom.second);
-
-	auto prTo = std::equal_range(orderedByTo.begin(), orderedByTo.end(), id);
-	orderedByTo.erase(prTo.first, prTo.second);
-
-	eIDM.retire(id);
-	assert(!eIDM.idIsActive(id));
-    }
-
-    const std::pair<ID, ID> getNodesFromEdge(const ID) const;
-    template<typename Itter>
-    const std::vector<std::pair<ID, ID>> getNodesFromEdges(const Itter& begin, const Itter& end) const;
+    const std::pair<ID, ID> getNodesOfEdge(const ID) const;
     
     const std::vector<ID> getEdgesOfNode(const ID) const;
     const std::vector<ID> getEdgesFromNode(const ID) const;
     const std::vector<ID> getEdgesToNode(const ID) const;
 
+    decltype(auto) getNeighbours(const ID, const int n = 1) const;
+    decltype(auto) getNeighboursEdges(const ID, const int n = 1) const;
+
+    const std::string toString() const;
 };
+
+template< bool directed, class EdgeIDM, class NodeIDM >
+Graph<directed, EdgeIDM, NodeIDM>::Graph(){
+    assert(orderedListsAreConsistent());
+
+    assert(orderedListsAreConsistent());
+}
+
+template< bool directed, class EdgeIDM, class NodeIDM >
+Graph<directed, EdgeIDM, NodeIDM>::Graph(const ID* nodes){
+    assert(orderedListsAreConsistent());
+
+    assert(orderedListsAreConsistent());
+}
+template< bool directed, class EdgeIDM, class NodeIDM >
+Graph<directed, EdgeIDM, NodeIDM>::Graph(const ID* nodes, const ID* edges){
+    assert(orderedListsAreConsistent());
+
+    assert(orderedListsAreConsistent());
+}
+
+template< bool directed, class EdgeIDM, class NodeIDM >
+ID Graph<directed, EdgeIDM, NodeIDM>::createNode(){
+    assert(orderedListsAreConsistent());
+
+    assert(orderedListsAreConsistent());
+}
+
+template< bool directed, class EdgeIDM, class NodeIDM >
+decltype(auto) Graph<directed, EdgeIDM, NodeIDM>::getNodes()const{
+    assert(orderedListsAreConsistent());
+
+    assert(orderedListsAreConsistent());
+}
+
+template< bool directed, class EdgeIDM, class NodeIDM >
+void Graph<directed, EdgeIDM, NodeIDM>::removeNode(const ID id){
+    assert(orderedListsAreConsistent());
+
+    assert(orderedListsAreConsistent());
+}
+
+template< bool directed, class EdgeIDM, class NodeIDM >
+ID Graph<directed, EdgeIDM, NodeIDM>::createEdge(const ID from, const ID to){
+    assert(orderedListsAreConsistent());
+
+    assert(orderedListsAreConsistent());
+}
+
+template< bool directed, class EdgeIDM, class NodeIDM >
+decltype(auto) Graph<directed, EdgeIDM, NodeIDM>::getEdges()const{
+    assert(orderedListsAreConsistent());
+
+    assert(orderedListsAreConsistent());
+}
+
+template< bool directed, class EdgeIDM, class NodeIDM >
+void Graph<directed, EdgeIDM, NodeIDM>::removeEdge(const ID id){
+    assert(orderedListsAreConsistent());
+
+    assert(orderedListsAreConsistent());
+}
+
+template< bool directed, class EdgeIDM, class NodeIDM >
+const std::pair<ID, ID> Graph<directed, EdgeIDM, NodeIDM>::getNodesOfEdge(const ID) const{
+    assert(orderedListsAreConsistent());
+
+    assert(orderedListsAreConsistent());
+}
+
+template< bool directed, class EdgeIDM, class NodeIDM >
+const std::vector<ID> Graph<directed, EdgeIDM, NodeIDM>::getEdgesOfNode(const ID) const{
+    assert(orderedListsAreConsistent());
+
+    assert(orderedListsAreConsistent());
+}
+
+template< bool directed, class EdgeIDM, class NodeIDM >
+const std::vector<ID> Graph<directed, EdgeIDM, NodeIDM>::getEdgesFromNode(const ID) const{
+    assert(orderedListsAreConsistent());
+
+    assert(orderedListsAreConsistent());
+}
+
+template< bool directed, class EdgeIDM, class NodeIDM >
+const std::vector<ID> Graph<directed, EdgeIDM, NodeIDM>::getEdgesToNode(const ID) const{
+    assert(orderedListsAreConsistent());
+
+    assert(orderedListsAreConsistent());
+}
+
+template< bool directed, class EdgeIDM, class NodeIDM >
+decltype(auto) Graph<directed, EdgeIDM, NodeIDM>::getNeighbours(const ID, const int n) const{
+    assert(orderedListsAreConsistent());
+
+    assert(orderedListsAreConsistent());
+}
+
+template< bool directed, class EdgeIDM, class NodeIDM >
+decltype(auto) Graph<directed, EdgeIDM, NodeIDM>::getNeighboursEdges(const ID, const int n) const{
+    assert(orderedListsAreConsistent());
+
+    assert(orderedListsAreConsistent());
+}
+
+template< bool directed, class EdgeIDM, class NodeIDM >
+const std::string Graph<directed, EdgeIDM, NodeIDM>::toString() const{
+    assert(orderedListsAreConsistent());
+
+    assert(orderedListsAreConsistent());
+}
+
+template< bool directed, class EdgeIDM, class NodeIDM >
+bool Graph<directed, EdgeIDM, NodeIDM>::orderedListsAreConsistent() const{
+    bool obF = std::is_sorted(orderedByFrom.begin(), orderedByFrom.end(),
+	[&](ID lhs, ID rhs){
+	    return edgeList.at(lhs).first < edgeList.at(rhs).first;
+	}
+    );
+
+    bool obT = std::is_sorted(orderedByTo.begin(), orderedByTo.end(),
+	[&](ID lhs, ID rhs){
+	    return edgeList.at(lhs).second < edgeList.at(rhs).second;
+	}
+    );
+
+    return obF && obT;
+}
 
 } //core
 
