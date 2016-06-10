@@ -1,5 +1,5 @@
 CC = clang++
-INCLUDEPATHS = -I./Inc
+INCLUDEPATHS = -I./Inc -I./Repos/FredLib/Inc
 COMPILEFLAGS = -std=gnu++14 -Wall -pthread -g
 PROJECTNAME = FreddieLib
 EXE_NAME = $(PROJECTNAME).out
