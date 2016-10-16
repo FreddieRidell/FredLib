@@ -1,14 +1,14 @@
-#include<Core/idManager.hpp>
+#include <Core/idManager.hpp>
 
-#include<gtest/gtest.h>
-#include<gmock/gmock.h>
+#include <gtest/gtest.h>
+#include <gmock/gmock.h>
 
 #include <algorithm>
 #include <deque>
 
 using namespace core;
 
-TEST(IDManager, YieldsCorrectIDs){
+TEST(IDManager, YieldsCorrectIDs) {
     std::vector<ID> container;
     IDManager idm;
 
@@ -18,13 +18,11 @@ TEST(IDManager, YieldsCorrectIDs){
     container.push_back(idm.yield());
     container.push_back(idm.yield());
 
-    EXPECT_TRUE(std::equal(
-		container.begin(),
-		container.end(),
-		std::array<ID, 5>({{0,1,2,3,4}}).begin() ));
+    EXPECT_TRUE(std::equal(container.begin(), container.end(),
+			   std::array<ID, 5>({{0, 1, 2, 3, 4}}).begin()));
 }
 
-TEST(IDManager, RetiredIDsAreYeildable){
+TEST(IDManager, RetiredIDsAreYeildable) {
     std::vector<ID> container;
     IDManager idm;
 
@@ -39,7 +37,7 @@ TEST(IDManager, RetiredIDsAreYeildable){
     EXPECT_EQ(idm.yield(), container[2]);
 }
 
-TEST(IDManager, RetiredIDsAreYeildedInOrder){
+TEST(IDManager, RetiredIDsAreYeildedInOrder) {
     std::vector<ID> container;
     IDManager idm;
 
@@ -62,7 +60,7 @@ TEST(IDManager, RetiredIDsAreYeildedInOrder){
     EXPECT_EQ(idm.yield(), container[6]);
 }
 
-TEST(IDManager, ReportsActivenesCorrectly){
+TEST(IDManager, ReportsActivenesCorrectly) {
     std::deque<ID> container;
     IDManager idm;
 
@@ -94,27 +92,32 @@ TEST(IDManager, ReportsActivenesCorrectly){
     EXPECT_TRUE(idm.idIsActive(1));
     EXPECT_TRUE(idm.idIsActive(3));
 
-    idm.retire(container.front()); container.pop_front();
+    idm.retire(container.front());
+    container.pop_front();
 
     EXPECT_TRUE(idm.idIsActive(1));
     EXPECT_TRUE(idm.idIsActive(3));
 
-    idm.retire(container.front()); container.pop_front();
+    idm.retire(container.front());
+    container.pop_front();
 
     EXPECT_FALSE(idm.idIsActive(1));
     EXPECT_TRUE(idm.idIsActive(3));
 
-    idm.retire(container.front()); container.pop_front();
+    idm.retire(container.front());
+    container.pop_front();
 
     EXPECT_FALSE(idm.idIsActive(1));
     EXPECT_TRUE(idm.idIsActive(3));
 
-    idm.retire(container.front()); container.pop_front();
+    idm.retire(container.front());
+    container.pop_front();
 
     EXPECT_FALSE(idm.idIsActive(1));
     EXPECT_FALSE(idm.idIsActive(3));
 
-    idm.retire(container.front()); container.pop_front();
+    idm.retire(container.front());
+    container.pop_front();
 
     EXPECT_FALSE(idm.idIsActive(1));
     EXPECT_FALSE(idm.idIsActive(3));

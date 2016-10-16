@@ -5,10 +5,7 @@
 namespace core {
 namespace math {
 
-template<class T>
-    const T abs(T val){
-	return val * sign(val);
-    }
+template <class T> const T abs(T val) { return val * sign(val); }
 
-} //math
-} //core
+} // math
+} // core

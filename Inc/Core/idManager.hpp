@@ -9,29 +9,28 @@ namespace core {
 
 typedef unsigned int ID;
 
-//const ID IDManager::yield();
-//void IDManager::retire(const ID id);
-//bool IDManager::idIsActive(const ID id);
-//const std::set<ID>& IDManager::getActiveIDs()const;
+// const ID IDManager::yield();
+// void IDManager::retire(const ID id);
+// bool IDManager::idIsActive(const ID id);
+// const std::set<ID>& IDManager::getActiveIDs()const;
 
-class IDManager{
-private:
+// will re-issue an ID after it's been released
+
+class IDManager {
+  private:
     ID greatestID;
     std::set<ID> activeIDs;
     std::set<ID> retiredIDs;
 
-public:
-    IDManager():
-	    greatestID(0)
-    {}
+  public:
+    IDManager() : greatestID(0) {}
 
-    const ID yield(){
+    const ID yield() {
 	ID newID;
-	if(retiredIDs.empty()){
+	if (retiredIDs.empty()) {
 	    newID = greatestID++;
 	    activeIDs.insert(activeIDs.end(), newID);
-	}
-	else{
+	} else {
 	    newID = *(retiredIDs.begin());
 	    retiredIDs.erase(newID);
 	    activeIDs.insert(newID);
@@ -39,7 +38,7 @@ public:
 	return newID;
     };
 
-    void retire(const ID id){
+    void retire(const ID id) {
 	assert(activeIDs.count(id) == 1);
 	assert(retiredIDs.count(id) == 0);
 
@@ -47,16 +46,16 @@ public:
 	retiredIDs.insert(id);
     }
 
-    bool idIsActive(const ID id){
-	if(id >= greatestID) return false;
-	if(activeIDs.size() < retiredIDs.size()){
+    bool idIsActive(const ID id) {
+	if (id >= greatestID)
+	    return false;
+
+	if (activeIDs.size() < retiredIDs.size()) {
 	    return activeIDs.count(id);
-	}
-	else{
+	} else {
 	    return !(retiredIDs.count(id));
 	}
     }
-
-    const std::set<ID>& getActiveIDs()const{return activeIDs;}
+    const std::set<ID> &getActiveIDs() const { return activeIDs; }
 };
-} //core
+} // core

@@ -1,22 +1,22 @@
-#pragma once 
+#pragma once
 
 #include <random>
 #include <iostream>
 
 #include <Core/Random/randomWrapper.hpp>
 
-namespace core{
-namespace random{
+namespace core {
+namespace random {
 
-class RandomInterface{
-private:
+class RandomInterface {
+  private:
     static RandomWrapper<std::mt19937> good;
     static RandomWrapper<std::minstd_rand> fast;
-	
+
     RandomInterface();
 
-public:
-    static RandomInterface& get(){
+  public:
+    static RandomInterface &get() {
 	static RandomInterface *instance = new RandomInterface();
 	return *instance;
     }
@@ -41,18 +41,18 @@ public:
     const signed long fastRandRange(const int min, const int max);
     const signed long goodRandRange(const int min, const int max);
 
-    const std::vector<signed long> fastRangeRangeN(const size_t n, const int min, const int max);
-    const std::vector<signed long> goodRangeRangeN(const size_t n, const int min, const int max);
+    const std::vector<signed long>
+    fastRangeRangeN(const size_t n, const int min, const int max);
+    const std::vector<signed long>
+    goodRangeRangeN(const size_t n, const int min, const int max);
 
     const signed long fastBellCurve(const int min = 0, const int max = 100);
     const signed long goodBellCurve(const int min = 0, const int max = 100);
 
-    const std::vector<signed long> fastBellCurveN(const size_t n,
-						     const int min = 0,
-						     const int max = 100);
-    const std::vector<signed long> goodBellCurveN(const size_t n,
-						     const int min = 0,
-						     const int max = 100);
+    const std::vector<signed long>
+    fastBellCurveN(const size_t n, const int min = 0, const int max = 100);
+    const std::vector<signed long>
+    goodBellCurveN(const size_t n, const int min = 0, const int max = 100);
 };
 
 } // namespace random
