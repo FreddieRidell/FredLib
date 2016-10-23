@@ -5,21 +5,19 @@ Src/%.o: Src/%.cpp $(FRED_LIB_MARKER)
 	$(COMPILEFLAGS) \
 	-o $@ 
 
-Test/%.o: Test/%.cpp $(GTEST_HEADER) $(GMOCK_HEADER)
+Test/%.o: Test/%.cpp 
 	@ echo "Compiling Test: $<"
 	@ $(CC) -c $< \
 	$(INCLUDEPATHS) \
-	-I$(GTEST_HEADER) \
-	-I$(GMOCK_HEADER) \
+	$(TEST_INCLUDE_PATHS) \
 	$(COMPILEFLAGS) \
 	-o $@ 
 
-%.d: %.cpp $(GTEST_HEADER) $(GMOCK_HEADER)
+%.d: %.cpp 
 	@ echo "Generating Dependancy File For: $<"
 	@ $(CC) -c $< \
 	$(INCLUDEPATHS) \
-	-I$(GTEST_HEADER) \
-	-I$(GMOCK_HEADER) \
+	$(TEST_INCLUDE_PATHS) \
 	$(COMPILEFLAGS) \
 	-MM -MT $(subst .d,.o,$@) \
 	-MF $@

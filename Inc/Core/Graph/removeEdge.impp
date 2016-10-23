@@ -1,0 +1,25 @@
+template <bool directed, class EdgeIDM, class NodeIDM>
+void Graph<directed, EdgeIDM, NodeIDM>::removeEdge(const ID id){
+	eIDM.retire(id);
+
+	const auto nodes = edgeListByEdge[id];
+
+	edgeListByEdge.erase(id);
+	edgeListByNodes.erase(nodes);
+
+	const auto searchRangeFrom = std::equal_range(orderedByFrom.begin(), orderedByFrom.end(), nodes.first);
+	for(auto i = searchRangeFrom.first; i < searchRangeFrom.second; i++){
+		if(*i == id){
+			orderedByFrom.erase(i);
+			break;
+		}
+	}
+
+	const auto searchRangeTo = std::equal_range(orderedByTo.begin(), orderedByTo.end(), nodes.second);
+	for(auto i = searchRangeTo.first; i < searchRangeTo.second; i++){
+		if(*i == id){
+			orderedByTo.erase(i);
+			break;
+		}
+	}
+}

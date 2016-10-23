@@ -1,0 +1,26 @@
+template <bool directed, class EdgeIDM, class NodeIDM>
+ID Graph<directed, EdgeIDM, NodeIDM>::createEdge(const ID from, const ID to){
+	const ID id = eIDM.vend();
+	const auto nodes = std::pair<ID, ID>(from, to);
+
+	assert(edgeListByNodes.find(nodes) == edgeListByNodes.end());
+
+	edgeListByEdge[id] = nodes;
+	edgeListByNodes[nodes] = id;
+
+	const auto insertAtFrom = std::lower_bound (orderedByFrom.begin(), orderedByFrom.end(), id,
+		[&](auto lhs, auto rhs){
+			return edgeListByEdge[lhs].first < edgeListByEdge[rhs].first;
+		}
+	);
+	orderedByFrom.insert(insertAtFrom, id);
+
+	const auto insertAtTo = std::lower_bound (orderedByTo.begin(), orderedByTo.end(), id,
+		[&](auto lhs, auto rhs){
+			return edgeListByEdge[lhs].second < edgeListByEdge[rhs].second;
+		}
+	);
+	orderedByTo.insert(insertAtTo, id);
+
+	return id;
+}

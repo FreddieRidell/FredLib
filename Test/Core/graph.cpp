@@ -1,27 +1,98 @@
-#include <Core/graph.hpp>
+#include <Core/Graph/graph.hpp>
 
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
 using namespace core;
 
-Graph<true> directedEmptyGraph;
-Graph<false> undirectedEmptyGraph;
-Graph<true> directedPetersonGraph;
-Graph<false> undirectedPetersonGraph;
+TEST(DirectedGraph, CreateGetRemoveNodes) { 
+	Graph<> directedGraph;
 
-TEST(DirectedGraph, CreateGetRemoveNodes) { ASSERT_TRUE(false); }
+	auto one = directedGraph.createNode();
+	auto two = directedGraph.createNode();
+	auto three = directedGraph.createNode();
 
-TEST(DirectedGraph, CreateGetRemoveEdges) { ASSERT_TRUE(false); }
+	directedGraph.removeNode(two);
 
-TEST(DirectedGraph, GetNodesOfEdge) { ASSERT_TRUE(false); }
+	EXPECT_THAT(directedGraph.getNodes(), testing::ElementsAre(one, three));
+}
 
-TEST(DirectedGraph, GetEdgesOfNode) { ASSERT_TRUE(false); }
+TEST(DirectedGraph, CreateGetRemoveEdges) { 
+	Graph<> directedGraph;
 
-TEST(DirectedGraph, GetEdgesFromNode) { ASSERT_TRUE(false); }
+	auto a = directedGraph.createNode();
+	auto b = directedGraph.createNode();
+	auto c = directedGraph.createNode();
 
-TEST(DirectedGraph, GetEdgesToNode) { ASSERT_TRUE(false); }
+	auto one = directedGraph.createEdge(a, b);
+	auto two = directedGraph.createEdge(b, c);
+	auto three = directedGraph.createEdge(c, a);
 
-TEST(DirectedGraph, GetNeighbours) { ASSERT_TRUE(false); }
+	directedGraph.removeEdge(two);
 
-TEST(DirectedGraph, GetNeighboursEdges) { ASSERT_TRUE(false); }
+	EXPECT_THAT(directedGraph.getEdges(), testing::ElementsAre(one, three));
+}
+
+TEST(DirectedGraph, GetNodesOfEdge) { 
+	Graph<> directedGraph;
+
+	auto a = directedGraph.createNode();
+	auto b = directedGraph.createNode();
+	auto c = directedGraph.createNode();
+
+	auto one = directedGraph.createEdge(a, b);
+	auto two = directedGraph.createEdge(b, c);
+	auto three = directedGraph.createEdge(c, a);
+	auto four = directedGraph.createEdge(a, c);
+	auto five = directedGraph.createEdge(c, b);
+	auto six = directedGraph.createEdge(b, a);
+
+	directedGraph.removeEdge(two);
+	directedGraph.removeEdge(five);
+
+	EXPECT_EQ(directedGraph.getNodesOfEdge(one).first, a);
+	EXPECT_EQ(directedGraph.getNodesOfEdge(one).second, b);
+
+	EXPECT_DEATH(directedGraph.getNodesOfEdge(two), ".*");
+
+	EXPECT_EQ(directedGraph.getNodesOfEdge(three).first, c);
+	EXPECT_EQ(directedGraph.getNodesOfEdge(three).second, a);
+
+	EXPECT_EQ(directedGraph.getNodesOfEdge(four).first, a);
+	EXPECT_EQ(directedGraph.getNodesOfEdge(four).second, c);
+
+	EXPECT_DEATH(directedGraph.getNodesOfEdge(five), ".*");
+
+	EXPECT_EQ(directedGraph.getNodesOfEdge(six).first, b);
+	EXPECT_EQ(directedGraph.getNodesOfEdge(six).second, a);
+}
+
+TEST(DirectedGraph, GetEdgesOfNode) { 
+	Graph<> directedGraph;
+
+	auto a = directedGraph.createNode();
+	auto b = directedGraph.createNode();
+	auto c = directedGraph.createNode();
+
+	auto one = directedGraph.createEdge(a, b);
+	auto two = directedGraph.createEdge(b, c);
+	auto three = directedGraph.createEdge(c, a);
+	auto four = directedGraph.createEdge(a, c);
+	auto five = directedGraph.createEdge(c, b);
+	auto six = directedGraph.createEdge(b, a);
+
+	directedGraph.removeEdge(two);
+	directedGraph.removeEdge(five);
+
+	EXPECT_THAT(directedGraph.getEdgesOfNode(a), testing::ElementsAre(one, three, four, six));
+	EXPECT_THAT(directedGraph.getEdgesOfNode(b), testing::ElementsAre(one, six));
+	EXPECT_THAT(directedGraph.getEdgesOfNode(c), testing::ElementsAre(three, four));
+}
+
+//TEST(DirectedGraph, GetEdgesFromNode) { EXPECT_TRUE(false); }
+
+//TEST(DirectedGraph, GetEdgesToNode) { EXPECT_TRUE(false); }
+
+//TEST(DirectedGraph, GetNeighbours) { EXPECT_TRUE(false); }
+
+//TEST(DirectedGraph, GetNeighboursEdges) { EXPECT_TRUE(false); }

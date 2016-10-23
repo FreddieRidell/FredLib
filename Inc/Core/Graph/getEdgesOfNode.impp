@@ -1,0 +1,7 @@
+template <bool directed, class EdgeIDM, class NodeIDM>
+const std::vector<ID> Graph<directed, EdgeIDM, NodeIDM>::getEdgesOfNode(const ID) const{
+	std::vector<ID> acc;
+
+	return acc;
+}
+
