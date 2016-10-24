@@ -67,8 +67,8 @@ class Graph {
 		}
 
 		const std::vector<ID> getEdgesOfNode(const ID) const; //defined below
-		const std::vector<ID> getEdgesFromNode(const ID) const;
-		const std::vector<ID> getEdgesToNode(const ID) const;
+		decltype(auto) getEdgesFromNode(const ID nodeID) const;
+		decltype(auto) getEdgesToNode(const ID nodeID) const;
 
 		const ID getEdgeConnectingNodes(const ID from, const ID to) const;
 
@@ -76,16 +76,39 @@ class Graph {
 		decltype(auto) getNeighboursEdges(const ID, const int n = 1) const;
 
 		const std::string toString() const;
+
+		const void print() const{
+			std::cout << "{\n\tedgeListByEdgeKeys:\t[ ";
+			for(auto it= edgeListByEdge.begin(); it != edgeListByEdge.end(); ++it) {
+				std::cout << it->first << ",\t";
+			}
+
+			std::cout << " ],\n\tedgeListByEdgeValues:\t[ ";
+			for(auto it= edgeListByEdge.begin(); it != edgeListByEdge.end(); ++it) {
+				std::cout << it->second.first << ',' << it->second.second << ",\t";
+			}
+
+			std::cout << " ],\n\torderedByFrom:\t\t[ ";
+			for(auto it= orderedByFrom.begin(); it != orderedByFrom.end(); ++it) {
+				std::cout << *it << ",\t";
+			}
+
+			std::cout << " ],\n\torderedByTo:\t\t[ ";
+			for(auto it= orderedByTo.begin(); it != orderedByTo.end(); ++it) {
+				std::cout << *it << ",\t";
+			}
+
+			std::cout << " ],\n}" << std::endl;
+
+
+			std::cout << std::endl;
+		}
 };
 
 #include "./createEdge.impp"
 #include "./removeEdge.impp"
-#include "./getEdgesOfNode.impp"
+//#include "./getEdgesOfNode.impp"
+#include "./getEdgesFromNode.impp"
+#include "./getEdgesToNode.impp"
 
 } // core
-
-template <bool directed = true, class EdgeIDM = core::IDManager,
-	class NodeIDM = core::IDManager>
-	std::ostream &operator<<(std::ostream &os, core::Graph<directed, EdgeIDM, NodeIDM> const &g) {
-		return os << g.toString();
-}

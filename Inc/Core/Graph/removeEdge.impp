@@ -3,23 +3,25 @@ void Graph<directed, EdgeIDM, NodeIDM>::removeEdge(const ID id){
 	eIDM.retire(id);
 
 	const auto nodes = edgeListByEdge[id];
+	const ID from = nodes.first;
+	const ID to = nodes.second;
 
 	edgeListByEdge.erase(id);
 	edgeListByNodes.erase(nodes);
 
-	const auto searchRangeFrom = std::equal_range(orderedByFrom.begin(), orderedByFrom.end(), nodes.first);
-	for(auto i = searchRangeFrom.first; i < searchRangeFrom.second; i++){
-		if(*i == id){
-			orderedByFrom.erase(i);
-			break;
-		}
-	}
+	orderedByFrom.erase(
+		std::find(
+			orderedByFrom.begin(),
+			orderedByFrom.end(),
+			id
+		)
+	);
 
-	const auto searchRangeTo = std::equal_range(orderedByTo.begin(), orderedByTo.end(), nodes.second);
-	for(auto i = searchRangeTo.first; i < searchRangeTo.second; i++){
-		if(*i == id){
-			orderedByTo.erase(i);
-			break;
-		}
-	}
+	orderedByTo.erase(
+		std::find(
+			orderedByTo.begin(),
+			orderedByTo.end(),
+			id
+		)
+	);
 }

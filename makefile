@@ -37,6 +37,9 @@ run: $(EXE_NAME)
 runTest: $(TESTS_EXE_NAME)
 	./$(TESTS_EXE_NAME)
 
+runTestBreak: $(TESTS_EXE_NAME)
+	./$(TESTS_EXE_NAME) --gtest_break_on_failure
+
 include $(MAKEFILES)
 -include $(DEPENDANCY_FILES)
 

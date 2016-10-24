@@ -1,0 +1,37 @@
+template <bool directed, class EdgeIDM, class NodeIDM>
+decltype(auto) Graph<directed, EdgeIDM, NodeIDM>::getEdgesFromNode(const ID nodeID) const {
+
+	std::cout << "(" << nodeID << ")" << std::endl;
+
+	for( auto i = orderedByFrom.begin(); i != orderedByFrom.end(); i++){
+		std::cout << *i << ";";
+	}
+	std::cout << std::endl;
+
+	const auto startAt = std::lower_bound (orderedByFrom.begin(), orderedByFrom.end(), nodeID,
+		[&](const ID lhs, const ID rhs){
+			print();
+
+			std::cout << lhs << ", " << rhs << std::endl;
+			return 
+				edgeListByEdge.at(lhs).first < 
+				edgeListByEdge.at(rhs).first;
+		}
+	);
+
+	const auto endAt = std::upper_bound(orderedByFrom.begin(), orderedByFrom.end(), nodeID,
+		[&](const ID lhs, const ID rhs){
+			return edgeListByEdge.at(lhs).first < edgeListByEdge.at(rhs).first;
+		}
+		);
+
+	std::cout << std::endl;
+
+	return (
+		std::pair<
+			std::vector<ID>::const_iterator,
+			std::vector<ID>::const_iterator
+		>
+			(startAt, endAt)
+   );
+}
