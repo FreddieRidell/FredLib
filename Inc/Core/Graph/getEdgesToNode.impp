@@ -1,24 +1,24 @@
-template <bool directed, class EdgeIDM, class NodeIDM>
-decltype(auto) Graph<directed, EdgeIDM, NodeIDM>::getEdgesToNode(const ID nodeID) const {
+//template <bool directed, class EdgeIDM, class NodeIDM>
+//decltype(auto) Graph<directed, EdgeIDM, NodeIDM>::getEdgesToNode(const ID nodeID) const {
 
-	const auto startAt = std::lower_bound (orderedByTo.begin(), orderedByTo.end(), nodeID,
-		[&](const ID lhs, const ID rhs){
-			return edgeListByEdge.at(lhs).first < edgeListByEdge.at(rhs).first;
-		}
-	);
+	//const auto startAt = std::lower_bound (orderedByTo.begin(), orderedByTo.end(), nodeID,
+		//[&](const ID lhs, const ID rhs){
+			//return edgeListByEdge.at(lhs).first < edgeListByEdge.at(rhs).first;
+		//}
+	//);
 
-	const auto endAt = std::upper_bound(orderedByTo.begin(), orderedByTo.end(), nodeID,
-		[&](const ID lhs, const ID rhs){
-			return edgeListByEdge.at(lhs).first < edgeListByEdge.at(rhs).first;
-		}
-	);
+	//const auto endAt = std::upper_bound(orderedByTo.begin(), orderedByTo.end(), nodeID,
+		//[&](const ID lhs, const ID rhs){
+			//return edgeListByEdge.at(lhs).first < edgeListByEdge.at(rhs).first;
+		//}
+	//);
 
-	return (
-		std::pair<
-			std::vector<ID>::const_iterator,
-			std::vector<ID>::const_iterator
-		>
-			(startAt, endAt)
-   );
-}
+	//return (
+		//std::pair<
+			//std::vector<ID>::const_iterator,
+			//std::vector<ID>::const_iterator
+		//>
+			//(startAt, endAt)
+   //);
+//}
 

@@ -25,14 +25,14 @@ echo >> $HEADER_FILE
 
 for f in $FOLDERS
 do
-    echo "namespace ${f,,} {" >> $HEADER_FILE
+	echo "namespace ${f,,} {" >> $HEADER_FILE
 done
 echo >> $HEADER_FILE
 echo >> $HEADER_FILE
 echo >> $HEADER_FILE
 for f in $(echo $FOLDERS | awk '{ for (i=NF; i>1; i--) printf("%s ",$i); print $1; }')
 do
-    echo "} //${f,,}" >> $HEADER_FILE
+	echo "} //${f,,}" >> $HEADER_FILE
 done
 
 echo "#include<${1}.hpp>" > $TEST_FILE
@@ -42,7 +42,7 @@ echo "#include<gmock/gmock.h>" >> $TEST_FILE
 echo >> $TEST_FILE
 for f in $FOLDERS
 do
-    echo "using namespace ${f,,};" >> $TEST_FILE
+	echo "using namespace ${f,,};" >> $TEST_FILE
 done
 echo >> $TEST_FILE
 echo "TEST(${FILE^^}, FailTest){EXPECT_TRUE(false);}" >> $TEST_FILE
@@ -52,6 +52,6 @@ echo "#include<${1}.hpp>" > $SRC_FILE
 echo >> $SRC_FILE
 for f in $FOLDERS
 do
-    echo "using namespace ${f,,};" >> $SRC_FILE
+	echo "using namespace ${f,,};" >> $SRC_FILE
 done
 echo >> $SRC_FILE

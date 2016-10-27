@@ -25,37 +25,37 @@ class IDManager {
   public:
     IDManager() : greatestID(0) {}
 
-    const ID vend() {
-	ID newID;
-	if (retiredIDs.empty()) {
-	    newID = greatestID++;
-	    activeIDs.insert(activeIDs.end(), newID);
-	} else {
-	    newID = *(retiredIDs.begin());
-	    retiredIDs.erase(newID);
-	    activeIDs.insert(newID);
+	const ID vend() {
+		ID newID;
+		if (retiredIDs.empty()) {
+			newID = greatestID++;
+			activeIDs.insert(activeIDs.end(), newID);
+		} else {
+			newID = *(retiredIDs.begin());
+			retiredIDs.erase(newID);
+			activeIDs.insert(newID);
+		}
+		return newID;
+	};
+
+	void retire(const ID id) {
+		assert(activeIDs.count(id) == 1);
+		assert(retiredIDs.count(id) == 0);
+
+		activeIDs.erase(id);
+		retiredIDs.insert(id);
 	}
-	return newID;
-    };
 
-    void retire(const ID id) {
-	assert(activeIDs.count(id) == 1);
-	assert(retiredIDs.count(id) == 0);
+	bool idIsActive(const ID id) {
+		if (id >= greatestID)
+			return false;
 
-	activeIDs.erase(id);
-	retiredIDs.insert(id);
-    }
-
-    bool idIsActive(const ID id) {
-	if (id >= greatestID)
-	    return false;
-
-	if (activeIDs.size() < retiredIDs.size()) {
-	    return activeIDs.count(id);
-	} else {
-	    return !(retiredIDs.count(id));
+		if (activeIDs.size() < retiredIDs.size()) {
+			return activeIDs.count(id);
+		} else {
+			return !(retiredIDs.count(id));
+		}
 	}
-    }
-    const std::set<ID> &getActiveIDs() const { return activeIDs; }
+	const std::set<ID> &getActiveIDs() const { return activeIDs; }
 };
 } // core

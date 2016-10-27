@@ -1,10 +1,14 @@
 #pragma once
 
 #include <algorithm>
-#include <set>
+#include <boost/graph/adjacency_list.hpp>
+#include <boost/graph/graph_traits.hpp>
+#include <iostream>                  // for std::cout
 #include <map>
-#include <vector>
 #include <mutex>
+#include <set>
+#include <utility>                   // for std::pair
+#include <vector>
 
 #include <Core/idManager.hpp>
 #include <Core/uniqIDManager.hpp>
@@ -20,53 +24,50 @@
 
 namespace core {
 
-template <
-	bool directed = true,
-	class EdgeIDM = IDManager,
-	class NodeIDM = IDManager
->
 class Graph {
 	private:
-		std::map<ID, std::pair<ID, ID>> edgeListByEdge;
-		std::map<std::pair<ID, ID>, ID> edgeListByNodes;
-		std::vector<ID> orderedByFrom;
-		std::vector<ID> orderedByTo;
 
-		EdgeIDM eIDM;
-		NodeIDM nIDM;
-
-		bool graphIsValid() const;
+		boost::adjacency_list<
+			boost::vecS,
+			boost::vecS,
+			boost::undirectedS
+		> internalGraph;
 
 	public:
 		Graph(){}
 
 		ID createNode(){
-			return nIDM.vend();
-		}
-
-		decltype(auto) getNodes() const{
-			return nIDM.getActiveIDs();
+			return add_vertex(internalGraph);
 		}
 
 		void removeNode(const ID id){
-			nIDM.retire(id);
+			boost::clear_vertex(id, internalGraph);
 		}
 
-		ID createEdge(const ID from, const ID to); //defined below
+		decltype(auto) getNodes() const{
+			return boost::vertices(internalGraph);
+		}
+
+		ID createEdge(const ID from, const ID to){
+			const auto edgeData = boost::add_edge(from, to, internalGraph);
+			assert(edgeData.second);
+
+			return edgeData.first;
+		}
+		void removeEdge(const ID from, const ID to){
+			return boost::remove_edge(from, to, internalGraph);
+		}
+		void removeEdge(const ID id){
+			return boost::remove_edge(id, internalGraph);
+		}
 
 		decltype(auto) getEdges() const{
-			return eIDM.getActiveIDs();
+			return boost::edges(internalGraph);
 		}
 
-		void removeEdge(const ID id); //defined below
+		const std::pair<ID, ID> getNodesOfEdge(const ID id) const;
 
-		const std::pair<ID, ID> getNodesOfEdge(const ID id) const{
-			assert(edgeListByEdge.find(id) != edgeListByEdge.end());
-
-			return edgeListByEdge.at(id);
-		}
-
-		const std::vector<ID> getEdgesOfNode(const ID) const; //defined below
+		const std::vector<ID> getEdgesOfNode(const ID) const;
 		decltype(auto) getEdgesFromNode(const ID nodeID) const;
 		decltype(auto) getEdgesToNode(const ID nodeID) const;
 
@@ -78,37 +79,9 @@ class Graph {
 		const std::string toString() const;
 
 		const void print() const{
-			std::cout << "{\n\tedgeListByEdgeKeys:\t[ ";
-			for(auto it= edgeListByEdge.begin(); it != edgeListByEdge.end(); ++it) {
-				std::cout << it->first << ",\t";
-			}
-
-			std::cout << " ],\n\tedgeListByEdgeValues:\t[ ";
-			for(auto it= edgeListByEdge.begin(); it != edgeListByEdge.end(); ++it) {
-				std::cout << it->second.first << ',' << it->second.second << ",\t";
-			}
-
-			std::cout << " ],\n\torderedByFrom:\t\t[ ";
-			for(auto it= orderedByFrom.begin(); it != orderedByFrom.end(); ++it) {
-				std::cout << *it << ",\t";
-			}
-
-			std::cout << " ],\n\torderedByTo:\t\t[ ";
-			for(auto it= orderedByTo.begin(); it != orderedByTo.end(); ++it) {
-				std::cout << *it << ",\t";
-			}
-
-			std::cout << " ],\n}" << std::endl;
-
 
 			std::cout << std::endl;
 		}
 };
-
-#include "./createEdge.impp"
-#include "./removeEdge.impp"
-//#include "./getEdgesOfNode.impp"
-#include "./getEdgesFromNode.impp"
-#include "./getEdgesToNode.impp"
 
 } // core

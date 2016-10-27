@@ -9,18 +9,18 @@ void Graph<directed, EdgeIDM, NodeIDM>::removeEdge(const ID id){
 	edgeListByEdge.erase(id);
 	edgeListByNodes.erase(nodes);
 
-	orderedByFrom.erase(
+	edgeIDsOrderedByFromNode.erase(
 		std::find(
-			orderedByFrom.begin(),
-			orderedByFrom.end(),
+			edgeIDsOrderedByFromNode.begin(),
+			edgeIDsOrderedByFromNode.end(),
 			id
 		)
 	);
 
-	orderedByTo.erase(
+	edgeIDsOrderedByToNode.erase(
 		std::find(
-			orderedByTo.begin(),
-			orderedByTo.end(),
+			edgeIDsOrderedByToNode.begin(),
+			edgeIDsOrderedByToNode.end(),
 			id
 		)
 	);

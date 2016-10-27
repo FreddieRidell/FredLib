@@ -8,19 +8,19 @@ ID Graph<directed, EdgeIDM, NodeIDM>::createEdge(const ID from, const ID to){
 	edgeListByEdge[id] = nodes;
 	edgeListByNodes[nodes] = id;
 
-	const auto insertAtFrom = std::lower_bound (orderedByFrom.begin(), orderedByFrom.end(), id,
+	const auto insertAtFrom = std::lower_bound (edgeIDsOrderedByFromNode.begin(), edgeIDsOrderedByFromNode.end(), id,
 		[&](auto lhs, auto rhs){
 			return edgeListByEdge[lhs].first < edgeListByEdge[rhs].first;
 		}
 	);
-	orderedByFrom.insert(insertAtFrom, id);
+	edgeIDsOrderedByFromNode.insert(insertAtFrom, id);
 
-	const auto insertAtTo = std::lower_bound (orderedByTo.begin(), orderedByTo.end(), id,
+	const auto insertAtTo = std::lower_bound (edgeIDsOrderedByToNode.begin(), edgeIDsOrderedByToNode.end(), id,
 		[&](auto lhs, auto rhs){
 			return edgeListByEdge[lhs].second < edgeListByEdge[rhs].second;
 		}
 	);
-	orderedByTo.insert(insertAtTo, id);
+	edgeIDsOrderedByToNode.insert(insertAtTo, id);
 
 	return id;
 }

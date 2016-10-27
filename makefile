@@ -5,7 +5,8 @@ PROJECTNAME = FreddieLib
 EXE_NAME = $(PROJECTNAME).out
 TESTS_EXE_NAME = $(PROJECTNAME).test
 
-INCLUDEPATHS = -I./Inc
+INCLUDEPATHS = -I./Inc \
+			   -I./Dependencies/boost
 
 TEST_INCLUDE_PATHS = \
 					 -I./Dependencies/googletest/googletest/include \

@@ -16,3 +16,12 @@ pushd googletest
 		make -j4
 	popd
 popd
+
+echo "boost (forgive me father)"
+
+git clone https://github.com/boostorg/boost --depth=1
+pushd boost
+	git submodule update --init
+	./bootstrap.sh
+	./b2 headers
+popd
