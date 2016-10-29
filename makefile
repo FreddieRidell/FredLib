@@ -1,6 +1,8 @@
 CC = clang++
 INCLUDEPATHS = -I./Inc -I./Repos/FredLib/Inc
-COMPILEFLAGS = -std=gnu++14 -Wall -pthread -g
+
+COMPILEFLAGS = -std=gnu++14 -Wall -pthread -g -Wgnu-array-member-paren-init
+
 PROJECTNAME = FreddieLib
 EXE_NAME = $(PROJECTNAME).out
 TESTS_EXE_NAME = $(PROJECTNAME).test

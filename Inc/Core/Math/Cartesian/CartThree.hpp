@@ -11,7 +11,7 @@ private:
 
 public:
 	CartThree(T x = T(), T y = T(), T z = T()):
-		points({x, y, z})
+		points{x, y, z}
 	{};
 
 	CartThree(T* init):

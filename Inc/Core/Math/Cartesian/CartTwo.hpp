@@ -11,7 +11,7 @@ private:
 
 public:
 	CartTwo(T x = T(), T y = T()):
-		points({x, y})
+		points{x, y}
 	{};
 
 	CartTwo(T* init):

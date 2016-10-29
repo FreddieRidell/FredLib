@@ -11,7 +11,7 @@ private:
 
 public:
 	CartFour(T x = T(), T y = T(), T z = T(), T w = T()):
-		points({x, y, z, w})
+		points{x, y, z, w}
 	{};
 
 	CartFour(T* init):
