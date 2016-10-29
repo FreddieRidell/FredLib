@@ -1,10 +1,12 @@
 CC = clang++
-
+INCLUDEPATHS = -I./Inc -I./Repos/FredLib/Inc
+COMPILEFLAGS = -std=gnu++14 -Wall -pthread -g
 PROJECTNAME = FreddieLib
 EXE_NAME = $(PROJECTNAME).out
 TESTS_EXE_NAME = $(PROJECTNAME).test
 
-INCLUDEPATHS = -I./Inc
+INCLUDEPATHS = -I./Inc \
+			   -I./Dependencies/boost
 
 TEST_INCLUDE_PATHS = \
 					 -I./Dependencies/googletest/googletest/include \
@@ -35,6 +37,9 @@ run: $(EXE_NAME)
 
 runTest: $(TESTS_EXE_NAME)
 	./$(TESTS_EXE_NAME)
+
+runTestBreak: $(TESTS_EXE_NAME)
+	./$(TESTS_EXE_NAME) --gtest_break_on_failure
 
 include $(MAKEFILES)
 -include $(DEPENDANCY_FILES)

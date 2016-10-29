@@ -1,4 +1,4 @@
-Src/%.o: Src/%.cpp
+Src/%.o: Src/%.cpp $(FRED_LIB_MARKER)
 	@ echo "Compling Source: $<"
 	@ $(CC) -c $< \
 	$(INCLUDEPATHS) \
