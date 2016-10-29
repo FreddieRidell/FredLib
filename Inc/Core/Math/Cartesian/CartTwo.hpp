@@ -33,6 +33,18 @@ public:
 		points[1] = y_;
 		return points[1];
 	}
+
+	CartTwo& normalize(){
+		const float reciprocal = 1.0 / (
+			points[0] * points[0]
+			+ points[1] * points[1]
+		);
+
+		points[0] *= reciprocal;
+		points[1] *= reciprocal;
+
+		return this;
+	}
 };
 
 } //cartesian

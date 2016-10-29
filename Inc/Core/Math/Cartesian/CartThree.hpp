@@ -41,6 +41,20 @@ public:
 		points[2] = z_;
 		return points[2];
 	}
+
+	CartThree& normalize(){
+		const float reciprocal = 1.0 / (
+			points[0] * points[0]
+			+ points[1] * points[1]
+			+ points[2] * points[2]
+		);
+
+		points[0] *= reciprocal;
+		points[1] *= reciprocal;
+		points[2] *= reciprocal;
+
+		return this;
+	}
 };
 
 } //cartesian
