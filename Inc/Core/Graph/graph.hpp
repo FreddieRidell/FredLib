@@ -24,6 +24,11 @@
 
 namespace core {
 
+template<
+	class EdgeIDM = IDManager,
+	class NodeIDM = IDManager
+>
+
 class Graph {
 	private:
 
@@ -33,11 +38,23 @@ class Graph {
 			boost::undirectedS
 		> internalGraph;
 
+		typedef boost::graph_traits< typeof( internalGraph ) >::vertex_descriptor nodeDescriptor;
+		typedef boost::graph_traits< typeof( internalGraph ) >::edge_descriptor edgeDescriptor;
+
+		NodeIDM nodeIDM;
+		EdgeIDM edgeIDM;
+
+		std::map<nodeDescriptor, ID> nodeIDFromBoostNode;
+		std::map<edgeDescriptor, ID> edgeIDFromBoostEdge;
+
 	public:
 		Graph(){}
 
 		ID createNode(){
-			return add_vertex(internalGraph);
+			const auto nodeData = add_vertex(internalGraph);
+			nodeIDFromBoostNode[nodeData] = nodeIDM.vend();
+
+			return nodeIDFromBoostNode[nodeData];
 		}
 
 		void removeNode(const ID id){
@@ -52,11 +69,15 @@ class Graph {
 			const auto edgeData = boost::add_edge(from, to, internalGraph);
 			assert(edgeData.second);
 
-			return edgeData.first;
+			edgeIDFromBoostEdge[edgeData.first] = edgeIDM.vend();
+
+			return edgeIDFromBoostEdge[edgeData.first];
 		}
+
 		void removeEdge(const ID from, const ID to){
 			return boost::remove_edge(from, to, internalGraph);
 		}
+
 		void removeEdge(const ID id){
 			return boost::remove_edge(id, internalGraph);
 		}

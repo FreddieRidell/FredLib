@@ -6,7 +6,7 @@
 using namespace core;
 
 TEST(DirectedGraph, CreateGetRemoveNodes) { 
-	Graph directedGraph;
+	Graph<> directedGraph;
 
 	auto one = directedGraph.createNode();
 	auto two = directedGraph.createNode();

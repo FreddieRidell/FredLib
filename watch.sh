@@ -31,9 +31,7 @@ prereq_files() {
     # prerequisites mentioned in a Makefile
     # that are extant files
     echo ' '
-    for f in `make_prereqs $* | sort -u`; do
-        [ -e $f ] && echo -n "$f ";
-    done
+	echo $(find Inc Src Test -print)
     echo
 }
 

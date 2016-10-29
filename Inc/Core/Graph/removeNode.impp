@@ -1,0 +1,38 @@
+template <bool directed, class EdgeIDM, class NodeIDM>
+void Graph<directed, EdgeIDM, NodeIDM>::removeNode(const ID id){
+
+	for(
+		auto it = boundsOfEdgeIDsOrderedByFromNode[id].first;
+		it != boundsOfEdgeIDsOrderedByFromNode[id].second;
+		it++
+   ){
+		const auto nodePair = edgeListByEdge[*it];
+		edgeListByEdge.erase(*it);
+		edgeListByNodes.erase(nodePair);
+	}
+
+	edgeIDsOrderedByFromNode.erase(
+		boundsOfEdgeIDsOrderedByFromNode[id].first,
+		boundsOfEdgeIDsOrderedByFromNode[id].second
+	);
+	boundsOfEdgeIDsOrderedByFromNode.erase(id);
+
+
+	for(
+		auto it = boundsOfEdgeIDsOrderedByToNode[id].first;
+		it != boundsOfEdgeIDsOrderedByToNode[id].second;
+		it++
+   ){
+		const auto nodePair = edgeListByEdge[*it];
+		edgeListByEdge.erase(*it);
+		edgeListByNodes.erase(nodePair);
+	}
+
+	edgeIDsOrderedByToNode.erase(
+		boundsOfEdgeIDsOrderedByToNode[id].first,
+		boundsOfEdgeIDsOrderedByToNode[id].second
+	);
+	boundsOfEdgeIDsOrderedByToNode.erase(id);
+
+	nIDM.retire(id);
+}

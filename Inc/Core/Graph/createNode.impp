@@ -1,0 +1,22 @@
+template <bool directed, class EdgeIDM, class NodeIDM>
+ID Graph<directed, EdgeIDM, NodeIDM>::createNode(){
+	const ID newID = nIDM.vend();
+
+	boundsOfEdgeIDsOrderedByFromNode[newID] = std::pair<
+		std::vector<ID>::const_iterator,
+		std::vector<ID>::const_iterator
+	>(
+		edgeIDsOrderedByFromNode.end(),
+		edgeIDsOrderedByFromNode.end()
+	 );
+
+	boundsOfEdgeIDsOrderedByToNode[newID] = std::pair<
+		std::vector<ID>::const_iterator,
+		std::vector<ID>::const_iterator
+	>(
+		edgeIDsOrderedByToNode.end(),
+		edgeIDsOrderedByToNode.end()
+	 );
+
+	return newID;
+}
