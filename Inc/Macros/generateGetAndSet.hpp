@@ -1,8 +1,8 @@
-#define GENERATE_GETTERS_AND_SETTERS(y, x) \
+#define GENERATE_GETTERS_AND_SETTERS(x) \
 	decltype(auto) x(){ \
 		return &x##_; \
 	} \
-	y x(const typeof(x##_) x##__){ \
+	this x(const typeof(x##_) x##__){ \
 		x##_ = x##__; \
 		return &x##_; \
 	}
