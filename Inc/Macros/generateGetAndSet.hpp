@@ -2,7 +2,7 @@
 	decltype(auto) x(){ \
 		return &x##_; \
 	} \
-	this x(const typeof(x##_) x##__){ \
+	decltype(auto) x(const typeof(x##_) x##__){ \
 		x##_ = x##__; \
-		return &x##_; \
+		return this; \
 	}
