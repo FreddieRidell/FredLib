@@ -48,7 +48,7 @@ public:
     Graph(){}
 
     ID createNode(){
-	const ID newID = nIDM.yield();
+	const ID newID = nIDM.vend();
 	return newID;
     }
     decltype(auto) getNodes()const{
@@ -59,7 +59,7 @@ public:
     }
 
     ID createEdge(const ID from, const ID to){
-	const ID newID = eIDM.yield();
+	const ID newID = eIDM.vend();
 	edgeList[newID] = std::pair<ID, ID>(from, to);
 
 	orderedByFrom.insert(

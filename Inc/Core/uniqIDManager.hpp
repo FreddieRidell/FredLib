@@ -16,7 +16,7 @@ public:
     {
     }
 
-    const ID yield(){
+    const ID vend(){
 	ID newID = greatestID++; 
 	activeIDs.insert(activeIDs.end(), newID);
 	return newID;

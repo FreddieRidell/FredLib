@@ -9,7 +9,7 @@ namespace core {
 
 typedef unsigned int ID;
 
-//const ID IDManager::yield();
+//const ID IDManager::vend();
 //void IDManager::retire(const ID id);
 //bool IDManager::idIsActive(const ID id);
 //const std::set<ID>& IDManager::getActiveIDs()const;
@@ -25,7 +25,7 @@ public:
 	    greatestID(0)
     {}
 
-    const ID yield(){
+    const ID vend(){
 	ID newID;
 	if(retiredIDs.empty()){
 	    newID = greatestID++;
