@@ -18,6 +18,10 @@ public:
 		points({init[0], init[1], init[2]})
 	{};
 
+	T* data(){
+		return points;
+	}
+
 	const T x(){
 		return points[0];
 	}
