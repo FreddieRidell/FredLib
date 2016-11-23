@@ -1,5 +1,9 @@
 #pragma once
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 namespace core {
 namespace math {
 namespace cartesian {
@@ -20,6 +24,10 @@ public:
 
 	T* data(){
 		return points;
+	}
+
+	glm::vec2 glmify(){
+		return glm::vec2(points[0], points[1]);
 	}
 
 	const T x(){
