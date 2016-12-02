@@ -30,7 +30,7 @@ public:
 		return glm::vec3(points[0], points[1], points[2]);
 	}
 
-	const T x(){
+	const T x() const {
 		return points[0];
 	}
 	const T x(T x_){
@@ -38,7 +38,7 @@ public:
 		return points[0];
 	}
 
-	const T y(){
+	const T y() const {
 		return points[1];
 	}
 	const T y(T y_){
@@ -46,7 +46,7 @@ public:
 		return points[1];
 	}
 
-	const T z(){
+	const T z() const {
 		return points[2];
 	}
 	const T z(T z_){

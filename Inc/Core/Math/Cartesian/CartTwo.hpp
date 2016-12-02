@@ -30,7 +30,7 @@ public:
 		return glm::vec2(points[0], points[1]);
 	}
 
-	const T x(){
+	const T x() const {
 		return points[0];
 	}
 	const T x(T x_){
@@ -38,7 +38,7 @@ public:
 		return points[0];
 	}
 
-	const T y(){
+	const T y() const {
 		return points[1];
 	}
 	const T y(T y_){
