@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cmath>
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -54,18 +56,22 @@ public:
 		return points[2];
 	}
 
-	CartThree& normalize(){
-		const float reciprocal = 1.0 / (
-			points[0] * points[0]
-			+ points[1] * points[1]
-			+ points[2] * points[2]
+	CartThree& normalize() const {
+		const float reciprocal = sqrt(
+			1.0 / (
+				points[0] * points[0]
+				+ points[1] * points[1]
+				+ points[2] * points[2]
+			)
 		);
 
-		points[0] *= reciprocal;
-		points[1] *= reciprocal;
-		points[2] *= reciprocal;
+		CartThree<T> ret = {
+			points[0] * reciprocal,
+			points[1] * reciprocal,
+			points[2] * reciprocal,
+		};
 
-		return this;
+		return ret;
 	}
 };
 

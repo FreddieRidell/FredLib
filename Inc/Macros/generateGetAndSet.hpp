@@ -6,7 +6,7 @@
 #define GENERATE_SETTER(x) \
 	decltype(auto) x(const typeof(x##_) x##__){ \
 		x##_ = x##__; \
-		return *this; \
+		return (*this); \
 	}
 
 #define GENERATE_GETTERS_AND_SETTERS(x) \
@@ -15,5 +15,5 @@
 	} \
 	decltype(auto) x(const typeof(x##_) x##__){ \
 		x##_ = x##__; \
-		return *this; \
+		return (*this); \
 	}
